@@ -62,55 +62,17 @@
 #     '}'
 # ]
 # sstr='#BED{    color: #FfFdF8; background-color:#aef;    font-size: 123px;}#Cab{    background-color: #ABC;    border: 2px dashed #fff;}'
-
-signature_list = ['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f']
-hex_list=[]  # список для результата
-# n = int(input())
-n=11
-ss=''
-it=0
-body_of_tag=0
-for ss in ss_list:
-    step = 0
-    if ss.find('{') != -1:
-        body_of_tag=1
-        # print('Вошли в тело')
-        continue
-    if ss.find('}') != -1:
-        body_of_tag=0
-        # print('Вышли из тела')
-        continue
-
-    while body_of_tag:
-        it=ss.find('#',it,)
-        if it == -1:
-            it=0
-            break
-        it+=1
-        # print('begin find in ', ss[it::1])
-        new_num_str = '#'
-
-        for single in ss[it::1]:
-            if single.lower() in signature_list:
-                new_num_str+=single
-                # print('new_num_str=',new_num_str)
-            else:  # закончился порядок цифр (0...9, A...F)
-                # print('end of find')
-                it += len(new_num_str)  # пропускаем уже проверенную строку и дальше будем искать с нового места
-                step += len(new_num_str)
-                # print('it=', it, ' ss()=',ss[it::1])
-                # print('body_of_tag =', body_of_tag)
-
-                if len(new_num_str)==4 or len(new_num_str)==7:
-                    hex_list.append(new_num_str)
-                    # print('hex_list', hex_list)
-                    new_num_str = ''
-                    break
-                else:
-                    new_num_str=''
-                    break
-
-for out in hex_list:
-    print(out)
-
+# Enter your code here. Read input from STDIN. Print output to STDOUT
+import re
+in_css = False
+n = int(input())
+for i in range(n):
+    line = input()
+    if '{'in line:
+        in_css = True
+    elif '}'in line:
+        in_css = False
+    elif in_css:
+        for color in re.findall('#[0-9a-fA-F]{3,6}',line):
+            print(color)        
 
